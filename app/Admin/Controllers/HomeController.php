@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Application;
+use App\Models\Category;
+use App\Models\Whm;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -22,10 +24,10 @@ class HomeController extends Controller
                     $column->append(new InfoBox('Website', 'users', 'green', '/admin/applications', Application::all()->count()));
                 });
                 $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Whm', 'users', 'aqua', '/admin/whms', Dashboard::totalWhm()));
+                    $column->append(new InfoBox('Whm', 'users', 'aqua', '/admin/whms', Whm::all()->count()));
                 });
                 $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Category', 'users', 'aqua', '/admin/categories', Dashboard::totalCategory()));
+                    $column->append(new InfoBox('Category', 'users', 'aqua', '/admin/categories', Category::all()->count()));
                 });
 
             });
