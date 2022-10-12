@@ -28,7 +28,14 @@ class ApplicationController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Application());
+        $grid->filter(function ($filter) {
 
+            $filter->disableIdFilter();
+            $filter->like('category.name', 'category');
+            $filter->like('user.name', 'user');
+            $filter->like('whm.name', 'whm');
+            $filter->equal('status')->select(Application::STATUSES);
+        });
         $grid->column('id', __('Id'));
         $grid->column('category.name', __('Category'));
         $grid->column('user.name', __('PIC'));
