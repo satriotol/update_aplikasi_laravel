@@ -3,11 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
-use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\InfoBox;
 
 class HomeController extends Controller
@@ -19,7 +19,7 @@ class HomeController extends Controller
             // ->row(Dashboard::title())
             ->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Website', 'users', 'green', '/admin/applications', Dashboard::totalWebsite()));
+                    $column->append(new InfoBox('Website', 'users', 'green', '/admin/applications', Application::all()->count()));
                 });
                 $row->column(4, function (Column $column) {
                     $column->append(new InfoBox('Whm', 'users', 'aqua', '/admin/whms', Dashboard::totalWhm()));
