@@ -30,9 +30,9 @@ class ApplicationController extends AdminController
         $grid = new Grid(new Application());
 
         $grid->column('id', __('Id'));
-        $grid->column('category.name', __('Category id'));
+        $grid->column('category.name', __('Category'));
         $grid->column('user.name', __('PIC'));
-        $grid->column('whm.name', __('Whm id'));
+        $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
         $grid->column('status', __('Status'))->display(function ($status, $column) {
             if ($this->status == 0) {
