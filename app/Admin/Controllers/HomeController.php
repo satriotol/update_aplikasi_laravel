@@ -7,6 +7,8 @@ use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\InfoBox;
 
 class HomeController extends Controller
 {
@@ -14,21 +16,18 @@ class HomeController extends Controller
     {
         return $content
             ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
+            // ->row(Dashboard::title())
             ->row(function (Row $row) {
-
                 $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
+                    $column->append(new InfoBox('Website', 'users', 'green', '/admin/applications', Dashboard::totalWebsite()));
+                });
+                $row->column(4, function (Column $column) {
+                    $column->append(new InfoBox('Whm', 'users', 'aqua', '/admin/whms', Dashboard::totalWhm()));
+                });
+                $row->column(4, function (Column $column) {
+                    $column->append(new InfoBox('Category', 'users', 'aqua', '/admin/categories', Dashboard::totalCategory()));
                 });
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
-                });
             });
     }
 }
