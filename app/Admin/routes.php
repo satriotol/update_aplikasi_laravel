@@ -16,4 +16,5 @@ Route::group([
     $router->resource('categories', CategoryController::class);
     $router->resource('whms', WhmController::class);
     $router->resource('applications', ApplicationController::class);
+    $router->resource('application-statuses', ApplicationStatusController::class);
 });

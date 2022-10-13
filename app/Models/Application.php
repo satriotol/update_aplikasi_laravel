@@ -10,13 +10,18 @@ class Application extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'whm_id', 'url', 'status', 'last_update', 'note', 'user_id'];
+    protected $fillable = ['category_id', 'whm_id', 'url', 'note', 'user_id'];
     const STATUSES = [
         'AKTIF', 'SUSPEND'
     ];
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function application_statuses()
+    {
+        return $this->hasMany(ApplicationStatus::class, 'application_id', 'id');
     }
 
     public function whm()
