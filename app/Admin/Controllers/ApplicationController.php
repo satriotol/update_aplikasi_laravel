@@ -45,7 +45,6 @@ class ApplicationController extends AdminController
         $grid->column('note', __('Note'))->editable();
         $grid->column('last_update', __('Last update'))->editable('date');
         $grid->column('updated_at', __('Tanggal Pemantauan'));
-
         return $grid;
     }
 
