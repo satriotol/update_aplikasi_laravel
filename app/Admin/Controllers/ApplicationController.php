@@ -80,11 +80,11 @@ class ApplicationController extends AdminController
     {
         $form = new Form(new Application());
 
-        $form->select('category_id', 'Category')->options(Category::all()->pluck('name', 'id'));
-        $form->select('whm_id', 'WHM')->options(Whm::all()->pluck('name', 'id'));
-        $form->textarea('url', __('Url'));
-        $form->select('status', __('Status'))->options(Application::STATUSES);
-        $form->date('last_update', __('Last update'))->default(date('Y-m-d'));
+        $form->select('category_id', 'Category')->options(Category::all()->pluck('name', 'id'))->rules('required');
+        $form->select('whm_id', 'WHM')->options(Whm::all()->pluck('name', 'id'))->rules('required');
+        $form->textarea('url', __('Url'))->rules('required');
+        $form->select('status', __('Status'))->options(Application::STATUSES)->rules('required');
+        $form->date('last_update', __('Last update'))->default(date('Y-m-d'))->rules('required');
         $form->textarea('note', __('Note'));
         $form->hidden('user_id');
         $form->saving(function (Form $form) {
