@@ -41,15 +41,9 @@ class ApplicationController extends AdminController
         $grid->column('user.name', __('PIC'));
         $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
-        $grid->column('status', __('Status'))->display(function ($status, $column) {
-            if ($this->status == 0) {
-                return Application::STATUSES[0];
-            } elseif ($this->status == 1) {
-                return Application::STATUSES[1];
-            }
-        });
-        $grid->column('note', __('Note'));
-        $grid->column('last_update', __('Last update'));
+        $grid->column('status', __('Status'))->editable('select', [0 => Application::STATUSES[0], 1 => Application::STATUSES[1]]);
+        $grid->column('note', __('Note'))->editable();
+        $grid->column('last_update', __('Last update'))->editable('date');
         $grid->column('updated_at', __('Tanggal Pemantauan'));
 
         return $grid;
