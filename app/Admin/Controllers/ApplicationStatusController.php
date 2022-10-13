@@ -67,11 +67,8 @@ class ApplicationStatusController extends AdminController
         $form = new Form(new ApplicationStatus());
 
         $form->select('status', __('Status'))->options(ApplicationStatus::STATUSES)->rules('required');
-        $form->hidden('application_id', __('Application id'));
+        $form->text('application_id', __('Application id'));
         $form->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
-        $form->saving(function (Form $form) {
-            $form->application_id = $form->model()->application_id;
-        });
 
         return $form;
     }

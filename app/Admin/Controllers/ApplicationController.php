@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Whm;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Row;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,7 @@ class ApplicationController extends AdminController
             $filter->like('category.name', 'category');
             $filter->like('user.name', 'user');
             $filter->like('whm.name', 'whm');
-            $filter->equal('status')->select(Application::STATUSES);
+            $filter->equal('status')->select(ApplicationStatus::STATUSES);
         });
         $grid->column('id', __('Id'));
         $grid->column('category.name', __('Category'));
@@ -56,7 +57,6 @@ class ApplicationController extends AdminController
     protected function detail($id)
     {
         $show = new Show(Application::findOrFail($id));
-
         $show->field('id', __('Id'));
         $show->field('category.name', __('Category id'));
         $show->field('whm.name', __('Whm id'));
@@ -64,7 +64,16 @@ class ApplicationController extends AdminController
         $show->field('note', __('Note'));
         $show->field('updated_at', __('Updated at'));
 
-        $show->application_statuses('Application Status', function ($applications_statuses) {
+        $show->application_statuses('Application Status', function ($applications_statuses) use ($id) {
+            $applications_statuses->quickCreate(function (Grid\Tools\QuickCreate $create) use ($id) {
+                $create->select('status', __('Status'))->options(ApplicationStatus::STATUSES)->rules('required');
+                $create->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
+                $create->text('application_id', __('Application id'))->default($id);
+            });
+            $applications_statuses->actions(function ($actions) {
+                $actions->disableDelete();
+                $actions->disableView();
+            });
             $applications_statuses->model()->orderBy('id', 'desc');
             $applications_statuses->resource('/admin/application-statuses');
             $applications_statuses->status()->display(function ($title) {
@@ -74,7 +83,7 @@ class ApplicationController extends AdminController
                     return ApplicationStatus::STATUSES[1];
                 }
             });
-            $applications_statuses->last_updated('Update Terakhir');
+            $applications_statuses->last_updated('Update Terakhir')->editable('date');
             $applications_statuses->updated_at('Di Cek');
         });
 
