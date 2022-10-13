@@ -20,16 +20,15 @@ class HomeController extends Controller
             ->title('Dashboard')
             // ->row(Dashboard::title())
             ->row(function (Row $row) {
-                $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Website', 'users', 'green', '/admin/applications', Application::all()->count()));
+                $row->column(12, function (Column $column) {
+                    $column->append(new InfoBox('Website', 'users', 'aqua', '/admin/applications', Application::all()->count()));
                 });
-                $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Whm', 'users', 'aqua', '/admin/whms', Whm::all()->count()));
+                $row->column(6, function (Column $column) {
+                    $column->append(new InfoBox('Website Aktif', 'users', 'green', '/admin/applications?status=0', Application::where('status', 0)->get()->count()));
                 });
-                $row->column(4, function (Column $column) {
-                    $column->append(new InfoBox('Category', 'users', 'aqua', '/admin/categories', Category::all()->count()));
+                $row->column(6, function (Column $column) {
+                    $column->append(new InfoBox('Website Suspend', 'users', 'red', '/admin/applications?status=1', Application::where('status', 1)->get()->count()));
                 });
-
             });
     }
 }
