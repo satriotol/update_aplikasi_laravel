@@ -68,21 +68,18 @@ class ApplicationController extends AdminController
             $applications_statuses->quickCreate(function (Grid\Tools\QuickCreate $create) use ($id) {
                 $create->select('status', __('Status'))->options(ApplicationStatus::STATUSES)->rules('required');
                 $create->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
-                $create->text('application_id', __('Application id'))->default($id);
+                $create->hidden('application_id', __('Application id'))->default($id);
             });
             $applications_statuses->actions(function ($actions) {
-                $actions->disableDelete();
+                $actions->disableEdit();
                 $actions->disableView();
             });
+            $applications_statuses->disableCreateButton();
+            $applications_statuses->disableFilter();
+            $applications_statuses->disableExport();
             $applications_statuses->model()->orderBy('id', 'desc');
             $applications_statuses->resource('/admin/application-statuses');
-            $applications_statuses->status()->display(function ($title) {
-                if ($this->title == 0) {
-                    return ApplicationStatus::STATUSES[0];
-                } else {
-                    return ApplicationStatus::STATUSES[1];
-                }
-            });
+            $applications_statuses->status()->editable('select', [0 => ApplicationStatus::STATUSES[0], 1 => ApplicationStatus::STATUSES[1]]);
             $applications_statuses->last_updated('Update Terakhir')->editable('date');
             $applications_statuses->updated_at('Di Cek');
         });
@@ -107,11 +104,6 @@ class ApplicationController extends AdminController
         $form->saving(function (Form $form) {
             $form->user_id = Auth::user()->id;
         });
-        $form->hasMany('application_statuses', function (Form\NestedForm $form) {
-            $form->select('status', __('Status'))->options(ApplicationStatus::STATUSES)->rules('required');
-            $form->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
-        });
-
         return $form;
     }
 }
