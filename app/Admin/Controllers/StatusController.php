@@ -2,22 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\ApplicationStatus;
 use App\Models\Status;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
-class ApplicationStatusController extends AdminController
+class StatusController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'ApplicationStatus';
+    protected $title = 'Status';
 
     /**
      * Make a grid builder.
@@ -26,12 +24,10 @@ class ApplicationStatusController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new ApplicationStatus());
+        $grid = new Grid(new Status());
 
         $grid->column('id', __('Id'));
-        $grid->column('status', __('Status'));
-        $grid->column('application_id', __('Application id'));
-        $grid->column('last_updated', __('Last updated'));
+        $grid->column('name', __('Name'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -46,12 +42,10 @@ class ApplicationStatusController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(ApplicationStatus::findOrFail($id));
+        $show = new Show(Status::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('status', __('Status'));
-        $show->field('application_id', __('Application id'));
-        $show->field('last_updated', __('Last updated'));
+        $show->field('name', __('Name'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -65,11 +59,9 @@ class ApplicationStatusController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new ApplicationStatus());
+        $form = new Form(new Status());
 
-        $form->select('status_id', __('Status'))->options(Status::all()->pluck('name', 'id'))->rules('required');
-        $form->text('application_id', __('Application id'));
-        $form->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
+        $form->text('name', __('Name'));
 
         return $form;
     }

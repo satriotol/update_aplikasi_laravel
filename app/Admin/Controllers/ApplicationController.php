@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Application;
 use App\Models\ApplicationStatus;
 use App\Models\Category;
+use App\Models\Status;
 use App\Models\Whm;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -36,15 +37,22 @@ class ApplicationController extends AdminController
             $filter->like('category.name', 'category');
             $filter->like('user.name', 'user');
             $filter->like('whm.name', 'whm');
-            $filter->equal('status')->select(ApplicationStatus::STATUSES);
         });
         $grid->column('id', __('Id'));
         $grid->column('category.name', __('Category'));
         $grid->column('user.name', __('PIC'));
         $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
-        $grid->column('note', __('Note'))->editable();
-        $grid->column('updated_at', __('Tanggal Pemantauan'));
+        $grid->column('note', __('Note'))->editable('textarea');
+        // $grid->application_statuses('Status')->pluck('status')->last()->display(function ($status) {
+        //     if ($status == 0) {
+        //         return ApplicationStatus::STATUSES[0];
+        //     } else  if ($status == 1) {
+        //         return ApplicationStatus::STATUSES[1];
+        //     } else if ($status) {
+        //         return 'test';
+        //     }
+        // });
         return $grid;
     }
 
@@ -58,15 +66,15 @@ class ApplicationController extends AdminController
     {
         $show = new Show(Application::findOrFail($id));
         $show->field('id', __('Id'));
-        $show->field('category.name', __('Category id'));
+        $show->field('user.name', __('PIC'));
+        $show->field('category.name', __('Category'));
         $show->field('whm.name', __('Whm id'));
         $show->field('url', __('Url'))->link();
         $show->field('note', __('Note'));
-        $show->field('updated_at', __('Updated at'));
 
         $show->application_statuses('Application Status', function ($applications_statuses) use ($id) {
             $applications_statuses->quickCreate(function (Grid\Tools\QuickCreate $create) use ($id) {
-                $create->select('status', __('Status'))->options(ApplicationStatus::STATUSES)->rules('required');
+                $create->select('status_id', __('Status'))->options(Status::all()->pluck('name', 'id'))->rules('required');
                 $create->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
                 $create->hidden('application_id', __('Application id'))->default($id);
             });
@@ -79,9 +87,9 @@ class ApplicationController extends AdminController
             $applications_statuses->disableExport();
             $applications_statuses->model()->orderBy('id', 'desc');
             $applications_statuses->resource('/admin/application-statuses');
-            $applications_statuses->status()->editable('select', [0 => ApplicationStatus::STATUSES[0], 1 => ApplicationStatus::STATUSES[1]]);
+            $applications_statuses->status_id('Status')->editable('select', Status::all()->pluck('name','id'));
             $applications_statuses->last_updated('Update Terakhir')->editable('date');
-            $applications_statuses->updated_at('Di Cek');
+            $applications_statuses->created_at('Di Cek')->date();
         });
 
         return $show;
