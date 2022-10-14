@@ -44,15 +44,7 @@ class ApplicationController extends AdminController
         $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
         $grid->column('note', __('Note'))->editable('textarea');
-        // $grid->application_statuses('Status')->pluck('status')->last()->display(function ($status) {
-        //     if ($status == 0) {
-        //         return ApplicationStatus::STATUSES[0];
-        //     } else  if ($status == 1) {
-        //         return ApplicationStatus::STATUSES[1];
-        //     } else if ($status) {
-        //         return 'test';
-        //     }
-        // });
+        $grid->application_statuses('Status')->pluck('status.name')->last();
         return $grid;
     }
 

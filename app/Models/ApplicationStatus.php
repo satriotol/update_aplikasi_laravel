@@ -10,4 +10,15 @@ class ApplicationStatus extends Model
     use HasFactory;
 
     protected $fillable = ['application_id', 'status_id', 'last_updated'];
+
+    protected $appends = ['status_name'];
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
+    public function getStatusNameAttribute()
+    {
+        return $this->status->name ?? '';
+    }
 }
