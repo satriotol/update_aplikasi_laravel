@@ -79,7 +79,7 @@ class ApplicationController extends AdminController
             $applications_statuses->disableExport();
             $applications_statuses->model()->orderBy('id', 'desc');
             $applications_statuses->resource('/admin/application-statuses');
-            $applications_statuses->status_id('Status')->editable('select', Status::all()->pluck('name','id'));
+            $applications_statuses->status_id('Status')->editable('select', Status::all()->pluck('name', 'id'));
             $applications_statuses->last_updated('Update Terakhir')->editable('date');
             $applications_statuses->created_at('Di Cek')->date();
         });

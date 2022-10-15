@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ApplicationStatus extends Model
 {
-    use HasFactory;
+    use HasFactory, DefaultDatetimeFormat;
 
     protected $fillable = ['application_id', 'status_id', 'last_updated'];
 
@@ -21,4 +23,8 @@ class ApplicationStatus extends Model
     {
         return $this->status->name ?? '';
     }
+    // public function getCreatedAtAttribute($date)
+    // {
+    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
+    // }
 }

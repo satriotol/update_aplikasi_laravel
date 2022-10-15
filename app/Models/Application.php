@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Encore\Admin\Auth\Database\Administrator;
+use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
-    use HasFactory;
+    use HasFactory, DefaultDatetimeFormat;
 
     protected $fillable = ['category_id', 'whm_id', 'url', 'note', 'user_id'];
     const STATUSES = [
