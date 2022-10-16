@@ -44,7 +44,9 @@ class ApplicationController extends AdminController
         $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
         $grid->column('note', __('Note'))->editable('textarea');
-        $grid->application_statuses('Status')->pluck('status.name')->last();
+        $grid->column('status_name', 'Status');
+        $grid->column('status_created_at', 'Status Created At');
+        // $grid->application_statuses('Status')->last();
         return $grid;
     }
 
@@ -67,7 +69,7 @@ class ApplicationController extends AdminController
         $show->application_statuses('Application Status', function ($applications_statuses) use ($id) {
             $applications_statuses->quickCreate(function (Grid\Tools\QuickCreate $create) use ($id) {
                 $create->select('status_id', __('Status'))->options(Status::all()->pluck('name', 'id'))->rules('required');
-                $create->date('last_updated', __('Last updated'))->default(date('Y-m-d'));
+                $create->date('last_updated', __('Last updated'))->default(date('Y-m-d'))->rules('required');
                 $create->hidden('application_id', __('Application id'))->default($id);
             });
             $applications_statuses->actions(function ($actions) {

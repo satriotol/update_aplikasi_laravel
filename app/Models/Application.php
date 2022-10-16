@@ -15,6 +15,7 @@ class Application extends Model
     const STATUSES = [
         'AKTIF', 'SUSPEND'
     ];
+    protected $appends = ['status_name', 'status_created_at'];
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
@@ -22,9 +23,16 @@ class Application extends Model
 
     public function application_statuses()
     {
-        return $this->hasMany(ApplicationStatus::class, 'application_id', 'id');
+        return $this->hasMany(ApplicationStatus::class, 'application_id', 'id')->orderBy('id', 'desc');
     }
-
+    public function getStatusNameAttribute()
+    {
+        return $this->application_statuses()->first()->status->name ?? '';
+    }
+    public function getStatusCreatedAtAttribute()
+    {
+        return $this->application_statuses()->first()->created_at ?? '';
+    }
     public function whm()
     {
         return $this->belongsTo(Whm::class, 'whm_id', 'id');
