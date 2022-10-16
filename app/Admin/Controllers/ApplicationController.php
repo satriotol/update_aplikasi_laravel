@@ -2,17 +2,17 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exports\ApplicationExport;
 use App\Models\Application;
-use App\Models\ApplicationStatus;
 use App\Models\Category;
 use App\Models\Status;
 use App\Models\Whm;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
-use Encore\Admin\Form\Row;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Auth;
+
 
 class ApplicationController extends AdminController
 {
@@ -39,6 +39,12 @@ class ApplicationController extends AdminController
             $filter->like('whm.name', 'whm');
             $filter->equal('application_status.status_id', 'Status')->select(Status::all()->pluck('name', 'id'));
         });
+        $grid->export(function ($export) {
+
+            $export->filename('Report_Aplikasi');
+            $export->originalValue(['url', 'note']);
+        });
+        // $grid->exporter(new ApplicationExport());
         $grid->column('id', __('Id'));
         $grid->column('category.name', __('Category'));
         $grid->column('user.name', __('PIC'));
