@@ -37,6 +37,7 @@ class ApplicationController extends AdminController
             $filter->like('category.name', 'category');
             $filter->like('user.name', 'user');
             $filter->like('whm.name', 'whm');
+            $filter->equal('application_status.status_id', 'Status')->select(Status::all()->pluck('name', 'id'));
         });
         $grid->column('id', __('Id'));
         $grid->column('category.name', __('Category'));
@@ -44,8 +45,8 @@ class ApplicationController extends AdminController
         $grid->column('whm.name', __('Whm'));
         $grid->column('url', __('Url'))->link();
         $grid->column('note', __('Note'))->editable('textarea');
-        $grid->column('status_name', 'Status');
-        $grid->column('status_created_at', 'Status Created At');
+        $grid->column('application_status.status_name', 'Status');
+        $grid->column('application_status.created_at', 'Created At');
         // $grid->application_statuses('Status')->last();
         return $grid;
     }

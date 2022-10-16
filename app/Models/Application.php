@@ -25,6 +25,10 @@ class Application extends Model
     {
         return $this->hasMany(ApplicationStatus::class, 'application_id', 'id')->orderBy('id', 'desc');
     }
+    public function application_status()
+    {
+        return $this->hasOne(ApplicationStatus::class, 'application_id', 'id')->orderBy('id', 'desc');
+    }
     public function getStatusNameAttribute()
     {
         return $this->application_statuses()->first()->status->name ?? '';
