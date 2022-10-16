@@ -34,10 +34,10 @@ class ApplicationController extends AdminController
         $grid->filter(function ($filter) {
 
             $filter->disableIdFilter();
+            $filter->equal('application_status.status_id', 'Status')->select(Status::all()->pluck('name', 'id'));
             $filter->like('category.name', 'category');
             $filter->like('user.name', 'user');
             $filter->like('whm.name', 'whm');
-            $filter->equal('application_status.status_id', 'Status')->select(Status::all()->pluck('name', 'id'));
         });
         $grid->export(function ($export) {
 

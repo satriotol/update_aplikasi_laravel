@@ -20,12 +20,19 @@ class HomeController extends Controller
             ->title('Dashboard')
             // ->row(Dashboard::title())
             ->row(function (Row $row) {
-                // $row->column(12, function (Column $column) {
-                //     $column->append(new InfoBox('Website', 'users', 'aqua', '/admin/applications', Application::all()->count()));
-                // });
-                // $row->column(6, function (Column $column) {
-                //     $column->append(new InfoBox('Website Aktif', 'users', 'green', '/admin/applications?status=0', Application::where('status', 0)->get()->count()));
-                // });
+                $row->column(12, function (Column $column) {
+                    $column->append(new InfoBox('Website', 'users', 'aqua', '/admin/applications', Application::all()->count()));
+                });
+                $row->column(6, function (Column $column) {
+                    $column->append(new InfoBox('Website Aktif', 'users', 'green', '/admin/applications', Application::whereHas('application_status', function ($q) {
+                        $q->where('status_id', 1);
+                    })->get()->count()));
+                });
+                $row->column(6, function (Column $column) {
+                    $column->append(new InfoBox('Website Suspend', 'users', 'red', '/admin/applications', Application::whereHas('application_status', function ($q) {
+                        $q->where('status_id', 2);
+                    })->get()->count()));
+                });
                 // $row->column(6, function (Column $column) {
                 //     $column->append(new InfoBox('Website Suspend', 'users', 'red', '/admin/applications?status=1', Application::where('status', 1)->get()->count()));
                 // });
