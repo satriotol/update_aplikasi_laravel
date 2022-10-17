@@ -6,7 +6,7 @@ Use Encore\Admin\Grid\Exporters\ExcelExporter;
 
 class ApplicationExport extends ExcelExporter
 {
-    protected $fileName = 'Article list.xlsx';
+    protected $fileName = 'List Aplikasi.xlsx';
     
     protected $columns = [
         'id' => 'ID',

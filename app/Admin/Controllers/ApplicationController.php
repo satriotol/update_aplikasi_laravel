@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Category;
 use App\Models\Status;
 use App\Models\Whm;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -41,7 +42,7 @@ class ApplicationController extends AdminController
         });
         $grid->export(function ($export) {
 
-            $export->filename('Report_Aplikasi');
+            $export->filename('Report Aplikasi ' . Carbon::now());
             $export->originalValue(['url', 'note']);
         });
         // $grid->exporter(new ApplicationExport());

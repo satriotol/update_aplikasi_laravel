@@ -24,12 +24,12 @@ class HomeController extends Controller
                     $column->append(new InfoBox('Website', 'users', 'aqua', '/admin/applications', Application::all()->count()));
                 });
                 $row->column(6, function (Column $column) {
-                    $column->append(new InfoBox('Website Aktif', 'users', 'green', '/admin/applications', Application::whereHas('application_status', function ($q) {
+                    $column->append(new InfoBox('Website Aktif', 'users', 'green', '/admin/applications?&application_status%5Bstatus_id%5D=1', Application::whereHas('application_status', function ($q) {
                         $q->where('status_id', 1);
                     })->get()->count()));
                 });
                 $row->column(6, function (Column $column) {
-                    $column->append(new InfoBox('Website Suspend', 'users', 'red', '/admin/applications', Application::whereHas('application_status', function ($q) {
+                    $column->append(new InfoBox('Website Suspend', 'users', 'red', '/admin/applications?&application_status%5Bstatus_id%5D=2', Application::whereHas('application_status', function ($q) {
                         $q->where('status_id', 2);
                     })->get()->count()));
                 });
